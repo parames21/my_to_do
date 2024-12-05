@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>To-Do List</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+  </head>
+  <body>
+    <h1>To-Do List Web App</h1>
+    <form id="to-do-form" action="/add_task" method="POST">
+      <input type="text" placeholder="Add task..." name="task" id="input-task">
+      <button type="submit">Add</button>
+    </form>
+
+    <div id="pending-tasks">
+      <h2>Pending Tasks</h2>
+      <ul id="task-list">
+        {% for task in pending %}
+          <li>
+            {{ task[1] }}<!-- Task Name -->
+            <form action="/complete_task" method="POST" style="display: inline;">
+              <input type="hidden" name="task_id" value="{{ task[0] }}"> <!-- Task ID -->
+              <button type="submit">Mark as Done</button>
+            </form>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div id="completed-tasks">
+      <h2>Completed Tasks</h2>
+      <ul id="completed-list">
+        {% for task in completed %}
+          <li>
+            {{ task[1] }}
+            <form action="/delete_completed_task" method="POST" style="display: inline;">
+                <input type="hidden" name="task_id" value="{{ task[0] }}"> <!-- Task ID -->
+                <button type="submit">Delete</button>
+              </form>
+          </li> <!-- Task Name -->
+        {% endfor %}
+      </ul>
+    </div>
+  </body>
+</html>
